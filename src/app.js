@@ -4,7 +4,7 @@ import { pool } from './lib/db-connection.js'
 // Import routes
 import { campaignsRouter } from './routes/campaigns.routes.js'
 import { indexRouter } from './routes/index.routes.js'
-import { engine } from 'express-handlebars'
+import exphbs from 'express-handlebars'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import helpers from './lib/helpers.js'
@@ -18,7 +18,7 @@ const PORT = process.env.SERVER_PORT || 3000
 const app = express()
 
 app.set('views', path.join(__dirname, 'views'));
-app.engine('.hbs', engine({
+app.engine('.hbs', exphbs.engine({
   defaultLayout: 'main',
   layoutsDir: path.join(app.get('views'), 'layouts'),
   partialsDir: path.join(app.get('views'), 'partials'),
