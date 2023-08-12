@@ -12,7 +12,7 @@ import helpers from './lib/helpers.js'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Constants
-const PORT = process.env.SERVER_PORT || 3000
+const PORT = process.env.PORT || 4000
 
 // Initializing Server
 const app = express()
