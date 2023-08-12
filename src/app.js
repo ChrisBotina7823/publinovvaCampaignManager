@@ -4,6 +4,12 @@ import { pool } from './lib/db-connection.js'
 // Import routes
 import { campaignsRouter } from './routes/campaigns.routes.js'
 import { indexRouter } from './routes/index.routes.js'
+import { engine } from 'express-handlebars'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import helpers from './lib/helpers.js'
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 // Constants
 const PORT = process.env.SERVER_PORT || 3000
@@ -11,15 +17,28 @@ const PORT = process.env.SERVER_PORT || 3000
 // Initializing Server
 const app = express()
 
-app.listen( PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
+app.set('views', path.join(__dirname, 'views'));
+app.engine('.hbs', engine({
+  defaultLayout: 'main',
+  layoutsDir: path.join(app.get('views'), 'layouts'),
+  partialsDir: path.join(app.get('views'), 'partials'),
+  extname: '.hbs',
+  helpers
+}))
+app.set('view engine', '.hbs');
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+
 
 // Routes
 app.use(indexRouter)
 app.use('/campaigns', campaignsRouter);
 
-// Connect Database
+// Connect Database and server
+app.listen( PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
 (async () => {
     try {
         await pool.getConnection()

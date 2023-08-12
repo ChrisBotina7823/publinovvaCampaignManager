@@ -1,0 +1,101 @@
+html {
+    font-size: 16px;
+  }
+  
+  p {
+    font-size: 1.2rem;
+  }
+  
+  .table thead th {
+    background-color: #39439a;
+    color: white;
+    border-color: #8a8ecb;
+    font-weight: normal;
+    text-align: center;
+  }
+  
+  .table-bordered td,
+  .table-bordered th {
+    border-color: #39439a;
+    border-width: 2px;
+  }
+  
+  
+  
+  .card {
+    background-color: #c8cbf1;
+  }
+  
+  
+  .btn-primary {
+    background-color: #484baa;
+    border-color: #2e3180;
+  }
+  
+  .btn-primary:hover,
+  .btn-primary:active {
+    background-color: #1c1d4c;
+    border-color: #1c1d4c;
+  }
+  
+  .form-control {
+    background-color: #e0e1f5;
+    border-color: #9b9dd5;
+    color: #1c1d4c;
+  }
+  .form-control:focus {
+    background-color: #d1d2ee;
+    border-color: #1c1d4c;
+  }
+  
+  
+  body {
+    background: #f5f6fa;
+    font-family: 'Roboto', sans-serif;
+    overflow: hidden;
+  }
+  .index {
+      width: 100vw;
+      height: 100vh;
+  }
+  
+  /* .navbar {
+      background: black !important;
+  } */
+  
+  .nav-link {
+      color: #404a9d !important;
+      font-size: 3vh
+  }
+  
+  .masthead {
+      color: #404a9d;
+      min-height: 30rem;
+      width: 100%;
+      height: 100%;
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  
+  .masthead h1 {
+      font-size: 4rem;
+      margin: 0;
+      padding: 0;
+    }
+    
+    @media (min-width: 992px) {
+      .masthead {
+        height: 100vh;
+      }
+      .masthead h1 {
+        font-size: 5.5rem;
+      }
+    }
+  
+    .responsive_img {
+      width: 100%;
+      height: auto;
+    }

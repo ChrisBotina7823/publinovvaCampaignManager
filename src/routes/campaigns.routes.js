@@ -6,12 +6,12 @@ const router = Router()
 
 router.get('/lifetime', async (req, res) => {
     const campaigns = await getTotalMetrics()
-    res.send(campaigns)
+    res.render('campaigns/metrics-table', {campaigns})
 })
 
 router.get('/last-log', async (req, res) => {
     const campaigns = await getTodayMetrics()
-    res.send(campaigns)
+    res.render('campaigns/metrics-table', {campaigns})
 })
 
 router.get('/make-log', async (req, res) => {

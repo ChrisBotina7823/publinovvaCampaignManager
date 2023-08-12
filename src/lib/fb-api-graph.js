@@ -54,6 +54,10 @@ export const parseMetricsToJson = async data => {
             'spend': parseInt(log.metrics[5].value),
             'active': log.metrics[6].delivery_info_value.status == 'active'
         }
+        Object.assign(campaign, {
+            'cpc': campaign.spend / campaign.clicks,
+            'cpr': campaign.spend / campaign.messages
+        })
         campaigns.push(campaign)   
     }
     return campaigns
