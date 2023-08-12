@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import axios from 'axios'
 import qs from 'qs'
 import { getLastLog, makeCampaignLog } from './db-operations.js'
+import fetch from 'node-fetch'
 dotenv.config()
 const account_id = process.env.FB_ACCOUNT_ID
 const access_token = process.env.FB_ACCESS_TOKEN
