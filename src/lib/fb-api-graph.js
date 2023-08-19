@@ -37,7 +37,7 @@ export const getTotalMetrics = async () => {
     url.searchParams.set('metrics', JSON.stringify(["actions:link_click", "attribution_setting", "campaign_id", "conversion_annotations", "results", "spend", "delivery_info"]));
     
     const res = await fetch(url, {headers})
-    console.log(res)
+    // console.log(res)
     const data = await res.json()
     const campaigns = await parseMetricsToJson(data.data[0])
     return campaigns
@@ -80,19 +80,33 @@ export const getTodayMetrics = async () => {
             id: totalMetricsLog.id,
             name: totalMetricsLog.name,
             active: totalMetricsLog.active,
-            clicks: totalMetricsLog.clicks - matchedLog.clicks,
-            messages: totalMetricsLog.messages - matchedLog.messages,
-            spend: totalMetricsLog.spend - matchedLog.spend,
         }
 
-        Object.assign(campaign, {
-            cpc: campaign.clicks > 0 ? campaign.spend / campaign.clicks : 0,
-            cpr: campaign.messages > 0 ? campaign.spend / campaign.messages : 0
-        })
+        if(matchedLog != undefined) {
+            Object.assign(campaign, {
+                clicks: totalMetricsLog.clicks - matchedLog.clicks,
+                messages: totalMetricsLog.messages - matchedLog.messages,
+                spend: totalMetricsLog.spend - matchedLog.spend,
+            })
+    
+            Object.assign(campaign, {
+                cpc: campaign.clicks > 0 ? campaign.spend / campaign.clicks : 0,
+                cpr: campaign.messages > 0 ? campaign.spend / campaign.messages : 0
+            })
+        } else {
+            Object.assign(campaign, {
+                clicks: 0,
+                messages: 0,
+                spend: 0,
+                cpc: 0,
+                cpr: 0
+            })
+        }
+
         return campaign
     })
 
-    console.log(todayLog)
+    // console.log(todayLog)
 
     return todayLog
 } 
