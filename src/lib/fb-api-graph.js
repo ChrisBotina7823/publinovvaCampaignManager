@@ -9,7 +9,7 @@ const access_token = process.env.FB_ACCESS_TOKEN
 const url_header = `https://graph.facebook.com/v17.0/`
 const url_footer = `&access_token=${access_token}`
 
-export const getTotalMetrics = async () => {
+export const getTotalMetrics = async (token) => {
 
 
     const headers = {
@@ -24,7 +24,7 @@ export const getTotalMetrics = async () => {
     };
     
     const url = new URL('https://adsmanager-graph.facebook.com/v17.0/act_1253594495262918/reporting');
-    url.searchParams.set('access_token', access_token);
+    url.searchParams.set('access_token', token);
     url.searchParams.set('__ad_account_id', 1253594495262918);
     url.searchParams.set('_app', "ADS_MANAGER");
     url.searchParams.set('_priority', "HIGH");
@@ -65,9 +65,9 @@ export const parseMetricsToJson = async data => {
 }
 
 
-export const getTodayMetrics = async () => {
+export const getTodayMetrics = async (token) => {
     let lastLog = await getLastLog()
-    const totalMetrics = await getTotalMetrics()
+    const totalMetrics = await getTotalMetrics(token)
 
     if(lastLog.length == 0) {
         await makeCampaignLog(totalMetrics)
