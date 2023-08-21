@@ -9,7 +9,8 @@ router.get('/lifetime', async (req, res) => {
 })
 
 router.get('/last-log', async (req, res) => {
-    const campaigns = await getTodayMetrics() 
+    let campaigns = await getTodayMetrics() 
+    campaigns = campaigns.filter( campaign => !campaign.campaign_name.includes("SUSPENDIDA") && !campaign.campaign_name.includes("ESPERA")  );
     res.render('campaigns/metrics-table', {campaigns})
 })
 
