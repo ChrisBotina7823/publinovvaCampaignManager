@@ -1,3 +1,5 @@
+import moment from "moment-timezone";
+
 const helpers = {}
 
 helpers.formatCurrency = value => {
@@ -18,6 +20,15 @@ helpers.formatNumber = value => {
       });
     
       return formatter.format(value);
+}
+
+helpers.formatTime = value => {
+  const date = value ? new Date(value) : new Date()
+  date.setHours( date.getHours() - 5 )
+  const options = { day: '2-digit', month: '2-digit', hour: '2-digit', minute:'2-digit', hour12: true };
+  const formattedDate = date.toLocaleString('es-ES', options).replace(',', ' - ');
+  
+  return formattedDate
 }
 
 export default helpers

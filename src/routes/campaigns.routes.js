@@ -1,26 +1,21 @@
 import { Router } from 'express'
-import { getTodayMetrics, getTotalMetrics, parseMetricsToJson } from '../lib/fb-api-graph.js'
-import {  getLastLog, makeCampaignLog } from '../lib/db-operations.js'
+import { getTodayMetrics, getTotalMetrics, makeLog } from '../lib/fb-api-graph.js'
 
 const router = Router()
 
-router.get('/lifetime/:token', async (req, res) => {
-    const { token } = req.params
-    const campaigns = await getTotalMetrics(token)
-    res.render('campaigns/metrics-table', {campaigns, token})
+router.get('/lifetime', async (req, res) => {
+    const campaigns = await getTotalMetrics();
+    res.render('campaigns/metrics-table', {campaigns})
 })
 
-router.get('/last-log/:token', async (req, res) => {
-    const { token } = req.params
-    const campaigns = await getTodayMetrics(token)
-    res.render('campaigns/metrics-table', {campaigns, token})
+router.get('/last-log', async (req, res) => {
+    const campaigns = await getTodayMetrics() 
+    res.render('campaigns/metrics-table', {campaigns})
 })
 
-router.get('/make-log/:token', async (req, res) => {
-    const { token } = req.params
-    const campaigns = await getTotalMetrics(token)
-    makeCampaignLog(campaigns)
-    res.redirect(`/campaigns/last-log/${token}`)
+router.get('/make-log', async (req, res) => {
+    await makeLog()
+    res.redirect(`/campaigns/last-log`)
 })
 
 router.get('/')

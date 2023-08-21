@@ -1,8 +1,7 @@
 CREATE TABLE campaigns (
-    id VARCHAR(255) PRIMARY KEY NOT NULL,
+    id CHAR(255) PRIMARY KEY NOT NULL,
     name VARCHAR(255) NOT NULL,
-    active BOOLEAN NOT NULL,
-    daily_budget INT(32) NOT NULL,
-    clicks_goal INT(32) NOT NULL DEFAULT 115,
-    cpc_goal INT(32) GENERATED ALWAYS AS (daily_budget / clicks_goal) VIRTUAL NOT NULL
+    clicks INT(32) DEFAULT 0,
+    spend INT(32) DEFAULT 0,
+    cpc INT(32) DEFAULT 0
 )

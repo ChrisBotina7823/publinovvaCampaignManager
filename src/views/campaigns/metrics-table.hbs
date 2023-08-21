@@ -5,25 +5,21 @@
     <tr>
       <th class="align-middle text-center">ID</th>
       <th class="align-middle text-center">Name</th>
-      <th class="align-middle text-center">Active</th>
       <th class="align-middle text-center">Clicks</th>
-      <th class="align-middle text-center">Messages</th>
       <th class="align-middle text-center">Spend</th>
       <th class="align-middle text-center">CPC</th>
-      <th class="align-middle text-center">CPR</th>
+      <th class="align-middle text-center">Last Log</th>
     </tr>
   </thead>
   <tbody>
     {{#each campaigns}}
     <tr>
-      <td class="align-middle text-center">{{this.id}}</td>
-      <td class="align-middle">{{this.name}}</td>
-      <td class="align-middle text-center">{{this.active}}</td>
+      <td class="align-middle text-center">{{this.campaign_id}}</td>
+      <td class="align-middle">{{this.campaign_name}}</td>
       <td class="align-middle text-center">{{formatNumber this.clicks}}</td>
-      <td class="align-middle text-center">{{formatNumber this.messages}}</td>
       <td class="align-middle text-center">{{formatCurrency this.spend}}</td>
       <td class="align-middle text-center">{{formatCurrency this.cpc}}</td>
-      <td class="align-middle text-center">{{formatCurrency this.cpr}}</td>
+      <td class="align-middle text-center">{{formatTime this.last_log}}</td>
     </tr>
     {{/each}}
   </tbody>

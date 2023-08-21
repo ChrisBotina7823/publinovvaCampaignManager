@@ -1,69 +1,20 @@
 import { pool } from './db-connection.js'
 
-// export const makeCampaignLog = async campaign => {
-//     const metrics = {
-//         clicks: campaign.clicks,
-//         cpc: campaign.spend / campaign.clicks,
-//         messages: campaign.messages,
-//         cpr: campaign.spend / campaign.messages,
-//         spend: campaign.spend,
-//         campaign_id: campaign.id
-//     }
-//     await pool.query(`INSERT INTO logs SET ?`, metrics)
-// }
 
-export const makeCampaignLog = async campaigns => {
-    await registerCampaign(campaigns)
-
-    const metrics = campaigns.map(campaign => ({
-        clicks: campaign.clicks,
-        cpc: campaign.spend / campaign.clicks,
-        messages: campaign.messages,
-        cpr: campaign.spend / campaign.messages,
-        spend: campaign.spend,
-        campaign_id: campaign.id
-    }));
-
-    const values = metrics.map(metric => `(${metric.clicks}, ${metric.cpc}, ${metric.messages}, ${metric.cpr}, ${metric.spend}, ${metric.campaign_id})`).join(', ');
-
-    await pool.query(`INSERT INTO logs (clicks, cpc, messages, cpr, spend, campaign_id) VALUES ${values}`);
+export const updateCampaignMetrics = async campaigns => {
+    for (const campaign of campaigns) {
+        const data = [campaign.clicks, campaign.spend, campaign.cpc];
+        await pool.query( 'UPDATE campaigns SET clicks = ?, spend = ?, cpc = ?, last_log = CURRENT_TIMESTAMP WHERE id = ?', [...data, campaign.campaign_id]);
+    }
 }
 
 
-// export const registerCampaign = async campaign => {
-//     let newCampaign = {
-//         id: campaign.id,
-//         name: campaign.name,
-//         daily_budget: 35000,
-//         active: campaign.active
-//     }
-//     await pool.query(`INSERT INTO campaigns SET ?`, newCampaign)
-// }
-
-export const registerCampaign = async campaigns => {
-    const values = campaigns.map(campaign => 
-        `(${campaign.id}, '${campaign.name}', 35000, ${campaign.active})`
-    ).join(', ');
-
-    await pool.query(`INSERT INTO campaigns (id, name, daily_budget, active) VALUES ${values} ON DUPLICATE KEY UPDATE name = VALUES(name), daily_budget = VALUES(daily_budget), active = VALUES(active)`);
+export const registerCampaigns = async campaigns => {
+    const values = campaigns.map( campaign => [campaign.campaign_id, campaign.campaign_name, campaign.clicks, campaign.spend, campaign.cpc])
+    await pool.query(`INSERT INTO campaigns (id, name, clicks, spend, cpc) VALUES ? ON DUPLICATE KEY UPDATE clicks = VALUES(clicks), spend = VALUES(spend), cpc = VALUES(cpc), last_log = CURRENT_TIMESTAMP`, [values])
 }
-
-
-
-
 
 export const getLastLog = async () => {
-    const q = `SELECT l.* FROM logs l
-    JOIN (
-      SELECT campaign_id, MAX(timestamp) AS max_timestamp
-      FROM logs
-      GROUP BY campaign_id
-    ) s ON l.campaign_id = s.campaign_id AND l.timestamp = s.max_timestamp;
-    `
-    const result = await pool.query(q)
-    const log = result[0]
-    // for(let campaign of log) {
-    //     campaign.spend = parseFloat(campaign.spend)
-    // }
-    return log
+    const campaigns = await pool.query(`SELECT * FROM campaigns`)
+    return campaigns[0] 
 }

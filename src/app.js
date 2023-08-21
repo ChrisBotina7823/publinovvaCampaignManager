@@ -1,6 +1,7 @@
 // Import libraries
 import express from 'express'
-import { pool } from './lib/db-connection.js'
+// import { pool } from './lib/db-connection.js'
+
 // Import routes
 import { campaignsRouter } from './routes/campaigns.routes.js'
 import { indexRouter } from './routes/index.routes.js'
@@ -39,11 +40,13 @@ app.use('/campaigns', campaignsRouter);
 app.listen( PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
-(async () => {
-    try {
-        await pool.getConnection()
-        console.log("DB Connected")
-    } catch(err) {
-        console.error(err)
-    }
-})();
+
+
+// (async () => {
+//     try {
+//         await pool.getConnection()
+//         console.log("DB Connected")
+//     } catch(err) {
+//         console.error(err)
+//     }
+// })();
